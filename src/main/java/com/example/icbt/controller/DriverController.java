@@ -34,7 +34,7 @@ public class DriverController extends HttpServlet {
 
         if (response.isStatus()) {
             //resp.sendRedirect("successPage.jsp");
-            resp.sendRedirect("addDriver.jsp");
+            resp.sendRedirect("addDriver");
         } else {
             resp.sendRedirect("addDriver.jsp?error=" + response.getMessage());
         }

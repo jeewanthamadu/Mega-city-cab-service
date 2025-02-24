@@ -23,6 +23,7 @@ public class DriverRepository {
                 "phone_number VARCHAR(15) NOT NULL, " +
                 "nic VARCHAR(20) NOT NULL, " +
                 "license_number VARCHAR(50) NOT NULL, " +
+                "availability BOOLEAN DEFAULT TRUE, " +
                 "gear_type VARCHAR(20) NOT NULL" +
                 ")";
 

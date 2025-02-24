@@ -1,4 +1,4 @@
-<%@ page import="com.example.icbt.entity.Vehicle" %>
+<%@ page import="com.example.icbt.entity.Customer" %>
 <%@ page import="java.util.List" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Management</title>
+    <title>Customer Management</title>
 
     <style>
         body {
@@ -52,7 +52,7 @@
 
         .form {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Creates three equal columns */
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             align-items: center;
             margin-bottom: 40px;
@@ -69,7 +69,7 @@
             color: #555;
         }
 
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -114,16 +114,15 @@
             font-size: 14px;
         }
 
-        /* Scrollable Table */
         .table-container {
-            max-height: 400px; /* Adjust this to your preferred max height */
-            overflow-y: auto; /* Enables vertical scroll */
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed; /* Ensures that the table columns will not resize */
+            table-layout: fixed;
         }
 
         thead {
@@ -171,51 +170,41 @@
 <div class="container">
     <div class="form-table-container">
         <div class="form-header">
-            <h1>Vehicle Management</h1>
+            <h1>Customer Management</h1>
         </div>
 
-        <form action="addVehicle" method="post" class="form">
+        <form action="addCustomer" method="post" class="form">
             <div class="form-group">
-                <label for="brand">Brand</label>
-                <input type="text" id="brand" name="brand" placeholder="Enter brand" required/>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter name" required/>
             </div>
 
             <div class="form-group">
-                <label for="model">Model</label>
-                <input type="text" id="model" name="model" placeholder="Enter model" required/>
+                <label for="nic">NIC</label>
+                <input type="text" id="nic" name="nic" placeholder="Enter NIC" required/>
             </div>
 
             <div class="form-group">
-                <label for="number">Vehicle Number</label>
-                <input type="text" id="number" name="number" placeholder="Enter vehicle number" required/>
+                <label for="licenseNumber">License Number</label>
+                <input type="text" id="licenseNumber" name="licenseNumber" placeholder="Enter license number" required/>
             </div>
 
             <div class="form-group">
-                <label for="year">Year</label>
-                <input type="number" id="year" name="year" placeholder="Enter year" min="1900" max="2099" required/>
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" placeholder="Enter age" min="18" required/>
             </div>
 
             <div class="form-group">
-                <label for="gearMode">Gear Mode</label>
-                <select id="gearMode" name="gearMode" required>
-                    <option value="" disabled selected>Select Gear Mode</option>
-                    <option value="Manual">Manual</option>
-                    <option value="Automatic">Automatic</option>
-                    <option value="Semi-Automatic">Semi-Automatic</option>
-                </select>
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number" required/>
             </div>
 
             <div class="form-group">
-                <label for="color">Color</label>
-                <input type="text" id="color" name="color" placeholder="Enter color" required/>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter email" required/>
             </div>
 
-            <div class="form-group">
-                <label for="seatCount">Seat Count</label>
-                <input type="number" id="seatCount" name="seatCount" placeholder="Enter seat count" min="1" required/>
-            </div>
-
-            <button type="submit" class="submit-button">Add Vehicle</button>
+            <button type="submit" class="submit-button">Add Customer</button>
 
             <% if (request.getParameter("error") != null) { %>
             <div class="error-message">
@@ -224,47 +213,34 @@
             <% } %>
         </form>
 
-        <!-- Vehicle Records Table -->
         <div class="search-bar">
-            <input type="text" id="search" placeholder="Search vehicles..." onkeyup="filterTable()"/>
+            <input type="text" id="search" placeholder="Search customers..." onkeyup="filterTable()"/>
         </div>
 
         <div class="table-container">
-            <table id="vehicleTable">
+            <table id="customerTable">
                 <thead>
                 <tr>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Number</th>
-                    <th>Year</th>
-                    <th>Gear Mode</th>
-                    <th>Color</th>
-                    <th>Seats</th>
-                    <th>Availabilty</th>
+                    <th>Name</th>
+                    <th>NIC</th>
+                    <th>License Number</th>
+                    <th>Age</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <% List<Vehicle> vehicleList = (List<Vehicle>) request.getAttribute("vehicleList");
-                    if (vehicleList != null) {
-                        for (Vehicle vehicle : vehicleList) { %>
+                <% List<Customer> customerList = (List<Customer>) request.getAttribute("customerList");
+                    if (customerList != null) {
+                        for (Customer customer : customerList) { %>
                 <tr>
-                    <td><%= vehicle.getBrand() %>
-                    </td>
-                    <td><%= vehicle.getModel() %>
-                    </td>
-                    <td><%= vehicle.getVehicleNumber() %>
-                    </td>
-                    <td><%= vehicle.getYear() %>
-                    </td>
-                    <td><%= vehicle.getGearMode() %>
-                    </td>
-                    <td><%= vehicle.getColor() %>
-                    </td>
-                    <td><%= vehicle.getSeatCount() %>
-                    </td>
-                    <td><%= vehicle.isAvailability() %>
-                    </td>
+                    <td><%= customer.getName() %></td>
+                    <td><%= customer.getNic() %></td>
+                    <td><%= customer.getLicenseNumber() %></td>
+                    <td><%= customer.getAge() %></td>
+                    <td><%= customer.getPhoneNumber() %></td>
+                    <td><%= customer.getEmail() %></td>
                     <td class="action-buttons">
                         <button class="edit-button">Edit</button>
                         <button class="delete-button">Delete</button>
@@ -282,7 +258,7 @@
     function filterTable() {
         const input = document.getElementById("search");
         const filter = input.value.toLowerCase();
-        const table = document.getElementById("vehicleTable");
+        const table = document.getElementById("customerTable");
         const trs = table.getElementsByTagName("tr");
 
         for (let i = 1; i < trs.length; i++) {

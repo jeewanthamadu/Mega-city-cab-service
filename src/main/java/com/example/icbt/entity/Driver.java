@@ -21,8 +21,18 @@ public class Driver {
         this.nic = nic;
         this.licenseNumber = licenseNumber;
         this.gearType = gearType;
+        this.availability = availability;
     }
 
+    private boolean availability = true;
+
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
 
     public String getDriverName() {
         return driverName;
