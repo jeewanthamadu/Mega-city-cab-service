@@ -14,7 +14,7 @@ public class VehicleRepository {
 
     public boolean addVehicle(Vehicle vehicle) {
         // Create the vehicle table if not exists
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS vehicles (" +
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS vehicle (" +
                 "vehicle_id INT AUTO_INCREMENT PRIMARY KEY, " +
                 "brand VARCHAR(100) NOT NULL, " +
                 "model VARCHAR(100) NOT NULL, " +
@@ -22,10 +22,12 @@ public class VehicleRepository {
                 "year INT NOT NULL, " +
                 "gear_mode VARCHAR(50) NOT NULL, " +
                 "color VARCHAR(50) NOT NULL, " +
-                "seat_count INT NOT NULL)";
+                "seat_count INT NOT NULL, " +
+                "availability BOOLEAN DEFAULT TRUE)";
 
 
-        String insertQuery = "INSERT INTO vehicles (brand, model, vehicle_number, year, gear_mode, color, seat_count) " +
+
+        String insertQuery = "INSERT INTO vehicle (brand, model, vehicle_number, year, gear_mode, color, seat_count) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 
@@ -56,7 +58,7 @@ public class VehicleRepository {
 
         public List<Vehicle> getAllVehicles() {
             List<Vehicle> vehicles = new ArrayList<>();
-            String query = "SELECT * FROM vehicles";
+            String query = "SELECT * FROM vehicle";
 
             try (Connection connection = DbConnection.getConnection();
                  PreparedStatement statement = connection.prepareStatement(query);
@@ -72,6 +74,7 @@ public class VehicleRepository {
                     vehicle.setGearMode(resultSet.getString("gear_mode"));
                     vehicle.setColor(resultSet.getString("color"));
                     vehicle.setSeatCount(resultSet.getInt("seat_count"));
+                    vehicle.setAvailability(resultSet.getBoolean("availability"));
 
                     vehicles.add(vehicle);
                 }
