@@ -1,14 +1,17 @@
 package com.example.icbt.controller;
 
 import com.example.icbt.entity.Driver;
+import com.example.icbt.entity.Vehicle;
 import com.example.icbt.model.DefaultResponse;
 import com.example.icbt.service.DriverService;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/addDriver")
 public class DriverController extends HttpServlet {
@@ -36,5 +39,15 @@ public class DriverController extends HttpServlet {
             resp.sendRedirect("addDriver.jsp?error=" + response.getMessage());
         }
     }
+
+
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        List<Driver> driverList = driverService.getAllVehicles();
+        req.setAttribute("driverList", driverList);
+        req.getRequestDispatcher("addDriver.jsp").forward(req, resp);
+    }
+
 }
 

@@ -1,8 +1,11 @@
 package com.example.icbt.service;
 
 import com.example.icbt.entity.Driver;
+import com.example.icbt.entity.Vehicle;
 import com.example.icbt.model.DefaultResponse;
 import com.example.icbt.repository.DriverRepository;
+
+import java.util.List;
 
 
 public class DriverService {
@@ -18,4 +21,11 @@ public class DriverService {
             return new DefaultResponse(false, "Failed to add driver", null);
         }
     }
+
+    public List<Driver> getAllVehicles() {
+        List<Driver> allDrivers = driverRepository.getAllDrivers();
+        System.out.println("vehicle list size : "+allDrivers.size());
+        return allDrivers;
+    }
+
 }
