@@ -26,7 +26,7 @@ public class LoginController extends HttpServlet {
             //resp.sendRedirect("addVehicle.jsp");
            // resp.sendRedirect("addVehicle.jsp?success=successfully!");
             String successMessage = URLEncoder.encode("Login successful!", "UTF-8");
-            resp.sendRedirect("addVehicle");
+            resp.sendRedirect("addDriver");
 
         } else {
 //            resp.sendRedirect("index.jsp?error=" + response.getMessage());

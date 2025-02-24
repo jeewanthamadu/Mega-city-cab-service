@@ -10,6 +10,9 @@ public class Driver {
     private String licenseNumber;
     private String gearType;
 
+    // Constructor
+    public Driver() {}
+
     public Driver(String driverName, int age, String email, String phoneNumber, String nic, String licenseNumber, String gearType) {
         this.driverName = driverName;
         this.age = age;
