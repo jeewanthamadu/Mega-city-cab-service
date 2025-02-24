@@ -2,10 +2,14 @@ package com.example.icbt.repository;
 
 import com.example.icbt.config.DbConnection;
 import com.example.icbt.entity.Driver;
+import com.example.icbt.entity.Vehicle;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DriverRepository {
 
@@ -47,5 +51,34 @@ public class DriverRepository {
             return false;
         }
     }
+
+
+    public List<Driver> getAllDrivers() {
+        List<Driver> drivers = new ArrayList<>();
+        String query = "SELECT * FROM driver";
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Driver driver = new Driver();
+                driver.setDriverName(resultSet.getString("driver_name"));
+                driver.setAge(resultSet.getInt("age"));
+                driver.setEmail(resultSet.getString("email"));
+                driver.setPhoneNumber(resultSet.getString("phone_number"));
+                driver.setNic(resultSet.getString("nic"));
+                driver.setLicenseNumber(resultSet.getString("license_number"));
+                driver.setGearType(resultSet.getString("gear_type"));
+
+                drivers.add(driver);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return drivers;
+    }
+
+
 }
 
