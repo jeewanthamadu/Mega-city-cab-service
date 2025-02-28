@@ -64,6 +64,7 @@ public class DriverRepository {
             while (resultSet.next()) {
                 Driver driver = new Driver();
                 driver.setDriverName(resultSet.getString("driver_name"));
+                driver.setDriverId(resultSet.getInt("driver_id"));
                 driver.setAge(resultSet.getInt("age"));
                 driver.setEmail(resultSet.getString("email"));
                 driver.setPhoneNumber(resultSet.getString("phone_number"));

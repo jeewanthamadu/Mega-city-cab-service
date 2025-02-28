@@ -22,7 +22,7 @@ public class DriverService {
         }
     }
 
-    public List<Driver> getAllVehicles() {
+    public List<Driver> getAllDrivers() {
         List<Driver> allDrivers = driverRepository.getAllDrivers();
         System.out.println("vehicle list size : "+allDrivers.size());
         return allDrivers;

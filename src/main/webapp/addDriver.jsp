@@ -251,6 +251,7 @@
                     <th>NIC</th>
                     <th>License</th>
                     <th>Gear Type</th>
+                    <th>Availability</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -272,6 +273,8 @@
                     <td><%= driver.getLicenseNumber() %>
                     </td>
                     <td><%= driver.getGearType() %>
+                    </td>
+                    <td><%= driver.isAvailability() %>
                     </td>
                     <td class="action-buttons">
                         <button class="edit-button">Edit</button>

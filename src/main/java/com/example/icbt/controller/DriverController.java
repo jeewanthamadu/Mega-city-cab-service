@@ -44,7 +44,7 @@ public class DriverController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        List<Driver> driverList = driverService.getAllVehicles();
+        List<Driver> driverList = driverService.getAllDrivers();
         req.setAttribute("driverList", driverList);
         req.getRequestDispatcher("addDriver.jsp").forward(req, resp);
     }
