@@ -26,7 +26,6 @@ public class VehicleRepository {
                 "availability BOOLEAN DEFAULT TRUE)";
 
 
-
         String insertQuery = "INSERT INTO vehicle (brand, model, vehicle_number, year, gear_mode, color, seat_count) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -56,33 +55,65 @@ public class VehicleRepository {
         }
     }
 
-        public List<Vehicle> getAllVehicles() {
-            List<Vehicle> vehicles = new ArrayList<>();
-            String query = "SELECT * FROM vehicle";
+    public List<Vehicle> getAllVehicles() {
+        List<Vehicle> vehicles = new ArrayList<>();
+        String query = "SELECT * FROM vehicle";
 
-            try (Connection connection = DbConnection.getConnection();
-                 PreparedStatement statement = connection.prepareStatement(query);
-                 ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
 
-                while (resultSet.next()) {
-                    Vehicle vehicle = new Vehicle();
-                    vehicle.setVehicleId(resultSet.getInt("vehicle_id"));
-                    vehicle.setBrand(resultSet.getString("brand"));
-                    vehicle.setModel(resultSet.getString("model"));
-                    vehicle.setVehicleNumber(resultSet.getString("vehicle_number"));
-                    vehicle.setYear(resultSet.getInt("year"));
-                    vehicle.setGearMode(resultSet.getString("gear_mode"));
-                    vehicle.setColor(resultSet.getString("color"));
-                    vehicle.setSeatCount(resultSet.getInt("seat_count"));
-                    vehicle.setAvailability(resultSet.getBoolean("availability"));
+            while (resultSet.next()) {
+                Vehicle vehicle = new Vehicle();
+                vehicle.setVehicleId(resultSet.getInt("vehicle_id"));
+                vehicle.setBrand(resultSet.getString("brand"));
+                vehicle.setModel(resultSet.getString("model"));
+                vehicle.setVehicleNumber(resultSet.getString("vehicle_number"));
+                vehicle.setYear(resultSet.getInt("year"));
+                vehicle.setGearMode(resultSet.getString("gear_mode"));
+                vehicle.setColor(resultSet.getString("color"));
+                vehicle.setSeatCount(resultSet.getInt("seat_count"));
+                vehicle.setAvailability(resultSet.getBoolean("availability"));
 
-                    vehicles.add(vehicle);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                vehicles.add(vehicle);
             }
-            return vehicles;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
+        return vehicles;
     }
+
+    // Get the total number of vehicles
+    public long getTotalVehicles() {
+        String query = "SELECT COUNT(*) FROM vehicle";  // Assuming vehicle table exists
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getLong(1);  // Get count of vehicles
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Get the number of available vehicles
+    public long getAvailableVehicles() {
+        String query = "SELECT COUNT(*) FROM vehicle WHERE status = 'Available'";  // Assuming status column
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getLong(1);  // Get count of available vehicles
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+}
 

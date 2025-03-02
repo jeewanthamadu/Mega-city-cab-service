@@ -2,7 +2,6 @@ package com.example.icbt.repository;
 
 import com.example.icbt.config.DbConnection;
 import com.example.icbt.entity.Driver;
-import com.example.icbt.entity.Vehicle;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,7 +51,6 @@ public class DriverRepository {
         }
     }
 
-
     public List<Driver> getAllDrivers() {
         List<Driver> drivers = new ArrayList<>();
         String query = "SELECT * FROM driver";
@@ -64,6 +62,7 @@ public class DriverRepository {
             while (resultSet.next()) {
                 Driver driver = new Driver();
                 driver.setDriverName(resultSet.getString("driver_name"));
+                driver.setDriverId(resultSet.getInt("driver_id"));
                 driver.setAge(resultSet.getInt("age"));
                 driver.setEmail(resultSet.getString("email"));
                 driver.setPhoneNumber(resultSet.getString("phone_number"));
@@ -79,6 +78,21 @@ public class DriverRepository {
         return drivers;
     }
 
+    public long getDriverCount() {
+        String query = "SELECT COUNT(*) FROM driver";  // Assuming the table name is 'drivers'
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getLong(1);  // Get count from query result
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;  // If any error occurs, return 0
+    }
 
 }
 

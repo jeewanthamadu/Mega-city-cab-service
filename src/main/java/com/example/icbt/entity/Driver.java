@@ -2,6 +2,27 @@ package com.example.icbt.entity;
 
 public class Driver {
 
+    public Driver(int driverId, String driverName, int age, String email, String phoneNumber, String nic, String licenseNumber, String gearType, boolean availability) {
+        this.driverId = driverId;
+        this.driverName = driverName;
+        this.age = age;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.nic = nic;
+        this.licenseNumber = licenseNumber;
+        this.gearType = gearType;
+        this.availability = availability;
+    }
+
+    public int getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
+    }
+
+    private int driverId;
     private String driverName;
     private int age;
     private String email;
@@ -12,6 +33,8 @@ public class Driver {
 
     // Constructor
     public Driver() {}
+
+
 
     public Driver(String driverName, int age, String email, String phoneNumber, String nic, String licenseNumber, String gearType) {
         this.driverName = driverName;
