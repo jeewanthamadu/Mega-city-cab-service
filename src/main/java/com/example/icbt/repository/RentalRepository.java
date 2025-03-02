@@ -92,5 +92,37 @@ public class RentalRepository {
         return rentals;
     }
 
+    public long getTotalRentals() {
+        String query = "SELECT COUNT(*) FROM rental";
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getLong(1);  // Get count from query result
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;  // If any error occurs, return 0
+    }
+
+    // Method to get the count of pending rentals
+    public long getPendingRentals() {
+        String query = "SELECT COUNT(*) FROM rental WHERE status = 'PENDING'";  // Assuming status 'PENDING' for pending rentals
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getLong(1);  // Get count from query result
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;  // If any error occurs, return 0
+    }
 }
 

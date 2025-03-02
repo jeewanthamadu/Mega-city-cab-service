@@ -1,291 +1,447 @@
+<%--
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      height: 100vh;
-      background-color: #f4f4f4;
-    }
-    .sidebar {
-      width: 250px;
-      background: #2c3e50;
-      color: white;
-      padding-top: 20px;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
-    }
-    .sidebar a {
-      padding: 15px;
-      color: white;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-    }
-    .sidebar a:hover {
-      background: #34495e;
-    }
-    .sidebar i {
-      margin-right: 10px;
-    }
-    .sidebar .dashboard-header {
-      padding: 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: white;
-      text-align: center;
-      background-color: #34495e;
-    }
-    .content {
-      flex: 1;
-      padding: 20px;
-      margin-left: 250px; /* Ensure content does not overlap sidebar */
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      min-height: 100vh;
-      overflow: auto;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
 
-    .dashboard-widgets {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Makes it responsive */
-      gap: 20px;
-      margin-bottom: 20px;
-    }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    .widget {
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      color: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f4f6f9;
+        }
 
-    .widget i {
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background-color: #1e3a56;
+            color: #fff;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            height: 100vh;
+            overflow-y: auto;
+            transition: width 0.3s ease;
+        }
 
-    /* Widget Colors */
-    .widget-vehicles {
-      background: #28a745;
-    }
+        .sidebar .dashboard-header {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    .widget-drivers {
-      background: #007bff;
-    }
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            font-size: 1.1em;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+        }
 
-    .widget-rentals {
-      background: #ffc107;
-    }
+        .sidebar a:hover {
+            background-color: #295580;
+        }
 
-    .widget-pending {
-      background: #e74c3c;
-    }
+        .sidebar .sidebar-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
 
-    .widget h3 {
-      font-size: 28px;
-      margin: 0;
-    }
+        /* Top Bar */
+        .top-bar {
+            background-color: #295580;
+            color: #fff;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 260px;
+            width: calc(100% - 260px);
+            z-index: 200;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: left 0.3s ease;
+        }
 
-    .widget p {
-      font-size: 18px;
-      margin-top: 5px;
-    }
+        .content {
+            margin-left: 260px;
+            /*margin-top: 70px;*/
+            padding: 20px;
+            width: calc(100% - 260px);
+            transition: margin-left 0.3s ease;
+            overflow: auto;
+        }
 
-    /* Chart Container */
-    .chart-container {
-      margin-top: 30px;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap; /* Allow charts to wrap on smaller screens */
-    }
+        /* Dashboard Widgets */
+        .dashboard-widgets {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
 
-    .chart {
-      width: 100%;
-      max-width: 600px;
-      height: 300px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .widget {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            width: 22%;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Styles for dynamic content */
-    .dynamic-style {
-      display: none;
-    }
+        .widget i {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
 
-    .activity-feed {
-      margin-top: 30px;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        /* Chart Section */
+        .chart-container {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
 
-    .activity-feed h3 {
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
-    .activity-item {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-  </style>
+        .chart {
+            width: 45%;
+        }
+    </style>
 </head>
 <body>
 
 <div class="sidebar">
-  <div class="dashboard-header">Dashboard</div>
-  <a href="#" onclick="loadPage('addRental')"><i class="fas fa-car"></i> Manage Rentals</a>
-  <a href="#" onclick="loadPage('addVehicle')"><i class="fas fa-truck"></i> Manage Vehicles</a>
-  <a href="#" onclick="loadPage('addCustomer')"><i class="fas fa-users"></i> Manage Customers</a>
+    <div class="dashboard-header">Dashboard</div>
+    <a href="#" onclick="loadPage('addRental')"><i class="fas fa-car"></i> Manage Rentals</a>
+    <a href="#" onclick="loadPage('addVehicle')"><i class="fas fa-truck"></i> Manage Vehicles</a>
+    <a href="#" onclick="loadPage('addCustomer')"><i class="fas fa-users"></i> Manage Customers</a>
+    <a href="#" onclick="loadPage('addDriver')"><i class="fas fa-users"></i> Manage Drivers</a>
+    <div class="sidebar-footer">
+        <a href="#" onclick="loadPage('logout.jsp')"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
 </div>
 
 <div class="content" id="main-content">
-  <h2>Welcome to the Dashboard</h2>
-  <p>Select an option from the sidebar.</p>
+    <h2>Welcome to the Dashboard</h2>
+    <p>Select an option from the sidebar.</p>
 
-  <!-- Dashboard Widgets -->
-  <div class="dashboard-widgets">
-    <div class="widget widget-vehicles">
-      <i class="fas fa-car"></i>
-      <h3>${vehicleCount}</h3>
-      <p>Vehicles</p>
+    <div class="dashboard-widgets">
+        <div class="widget">
+            <i class="fas fa-car"></i>
+            <h3>${totalVehicles}</h3>
+            <p>Vehicles</p>
+        </div>
+        <div class="widget">
+            <i class="fas fa-users"></i>
+            <h3>${driverCount}</h3>
+            <p>Drivers</p>
+        </div>
+        <div class="widget">
+            <i class="fas fa-cogs"></i>
+            <h3>${totalRentals}</h3>
+            <p>Rentals</p>
+        </div>
+        <div class="widget">
+            <i class="fas fa-clock"></i>
+            <h3>${pendingCount}</h3>
+            <p>Pending Rentals</p>
+        </div>
     </div>
-    <div class="widget widget-drivers">
-      <i class="fas fa-users"></i>
-      <h3>${driverCount}</h3>
-      <p>Drivers</p>
-    </div>
-    <div class="widget widget-rentals">
-      <i class="fas fa-cogs"></i>
-      <h3>${rentalCount}</h3>
-      <p>Rentals</p>
-    </div>
-    <div class="widget widget-pending">
-      <i class="fas fa-clock"></i>
-      <h3>${pendingCount}</h3>
-      <p>Pending Rentals</p>
-    </div>
-  </div>
-
-  <!-- Chart Section -->
-  <div class="chart-container">
-    <!-- Bar Chart Example -->
-    <div class="chart" id="rentalsChart">
-      <canvas id="barChart"></canvas>
-    </div>
-    <div class="chart">
-      <!-- Example of another chart, can be pie, line, etc. -->
-      <canvas id="pieChart"></canvas>
-    </div>
-  </div>
-
-  <!-- Activity Feed -->
-  <div class="activity-feed">
-    <h3>Recent Activity</h3>
-    <div class="activity-item">Rental #12345 was added by Admin.</div>
-    <div class="activity-item">Vehicle #67890 was returned by Customer A.</div>
-    <div class="activity-item">Driver #54321 assigned to Rental #12346.</div>
-  </div>
-
-  <!-- Dynamic Content -->
-  <div class="dynamic-content">
-    <h4>Select an option from the sidebar to manage data.</h4>
-  </div>
 </div>
 
 <script>
-  // Function to load pages dynamically based on the sidebar selection
-  function loadPage(page) {
-    fetch(page)
+    function loadPage(page) {
+        fetch(page)
             .then(response => response.text())
             .then(html => {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(html, 'text/html');
-
-              // Extract content from the page and update the main content
-              const newContent = doc.querySelector('.container');
-              if (newContent) {
-                document.getElementById('main-content').innerHTML = newContent.innerHTML;
-              }
-
-              // Remove previous dynamic styles
-              document.querySelectorAll('.dynamic-style').forEach(styleTag => styleTag.remove());
-
-              // Extract and apply new styles if there are any
-              const styleTags = doc.querySelectorAll('style');
-              styleTags.forEach(style => {
-                const newStyle = document.createElement('style');
-                newStyle.classList.add('dynamic-style');
-                newStyle.innerHTML = style.innerHTML;
-                document.head.appendChild(newStyle);
-              });
+                document.getElementById('main-content').innerHTML = html;
             })
             .catch(error => console.error('Error loading page:', error));
-  }
+    }
+</script>
 
-  // Chart.js Bar Chart Example
-  const ctxBar = document.getElementById('barChart').getContext('2d');
-  new Chart(ctxBar, {
-    type: 'bar',
-    data: {
-      labels: ['January', 'February', 'March', 'April', 'May'],
-      datasets: [{
-        label: 'Rentals',
-        data: [30, 50, 40, 60, 90],
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+</body>
+</html>--%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f4f6f9;
         }
-      }
-    }
-  });
 
-  // Chart.js Pie Chart Example
-  const ctxPie = document.getElementById('pieChart').getContext('2d');
-  new Chart(ctxPie, {
-    type: 'pie',
-    data: {
-      labels: ['Rent', 'Return', 'Cancel'],
-      datasets: [{
-        data: [50, 30, 20],
-        backgroundColor: ['#28a745', '#ffc107', '#e74c3c'],
-        hoverOffset: 4
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false // Ensures it resizes properly
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background-color: #1e3a56;
+            color: #fff;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            height: 100vh;
+            overflow-y: auto;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar .dashboard-header {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            font-size: 1.1em;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .sidebar a:hover {
+            background-color: #295580;
+        }
+
+        .sidebar .sidebar-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .top-bar {
+            background-color: #295580;
+            color: #fff;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 260px;
+            width: calc(100% - 260px);
+            z-index: 200;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: left 0.3s ease;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+            width: calc(100% - 260px);
+            transition: margin-left 0.3s ease;
+            overflow: auto;
+        }
+
+        .dashboard-widgets {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .widget {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            width: 22%;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .widget i {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .recent-activity {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .recent-activity h3 {
+            margin-bottom: 10px;
+        }
+
+        .notification {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #ffeb3b;
+            color: #333;
+            border-radius: 5px;
+        }
+
+        /* Chart Section */
+        .chart-container {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .chart {
+            width: 45%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="dashboard-header">Dashboard</div>
+    <a href="#" onclick="loadPage('addRental')"><i class="fas fa-car"></i> Manage Rentals</a>
+    <a href="#" onclick="loadPage('addVehicle')"><i class="fas fa-truck"></i> Manage Vehicles</a>
+    <a href="#" onclick="loadPage('addCustomer')"><i class="fas fa-users"></i> Manage Customers</a>
+    <a href="#" onclick="loadPage('addDriver')"><i class="fas fa-users"></i> Manage Drivers</a>
+    <div class="sidebar-footer">
+        <a href="#" onclick="loadPage('logout.jsp')"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+</div>
+
+<div class="content" id="main-content">
+    <h2>Welcome to the Dashboard</h2>
+    <p>Select an option from the sidebar.</p>
+
+    <!-- Notification Center -->
+    <div class="notification">You have 3 new rental requests pending approval.</div>
+
+    <div class="dashboard-widgets">
+        <div class="widget">
+            <i class="fas fa-car"></i>
+            <h3>${totalVehicles}</h3>
+            <p>Vehicles</p>
+        </div>
+        <div class="widget">
+            <i class="fas fa-users"></i>
+            <h3>${driverCount}</h3>
+            <p>Drivers</p>
+        </div>
+        <div class="widget">
+            <i class="fas fa-cogs"></i>
+            <h3>${totalRentals}</h3>
+            <p>Rentals</p>
+        </div>
+        <div class="widget">
+            <i class="fas fa-clock"></i>
+            <h3>${pendingCount}</h3>
+            <p>Pending Rentals</p>
+        </div>
+    </div>
+
+    <!-- Recent Activity Feed -->
+    <div class="recent-activity">
+        <h3>Recent Activity</h3>
+        <ul>
+            <li>New rental added by John Doe on March 2, 2025</li>
+            <li>New vehicle added: Toyota Prius on March 1, 2025</li>
+            <li>Driver Mike Smith completed rental #10245</li>
+        </ul>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="chart-container">
+        <div class="chart">
+            <h3>Rental Trends</h3>
+            <canvas id="rentalChart"></canvas>
+        </div>
+        <div class="chart">
+            <h3>Vehicle Availability</h3>
+            <canvas id="vehicleChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadPage(page) {
+        fetch(page)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('main-content').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading page:', error));
     }
-  });
+
+    // Rental Trends Chart
+    const rentalChart = document.getElementById('rentalChart').getContext('2d');
+    new Chart(rentalChart, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{
+                label: 'Rentals',
+                data: [12, 19, 15, 25, 30],
+                borderColor: '#4e73df',
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Vehicle Availability Chart
+    const vehicleChart = document.getElementById('vehicleChart').getContext('2d');
+    new Chart(vehicleChart, {
+        type: 'pie',
+        data: {
+            labels: ['Available', 'Occupied', 'In Maintenance'],
+            datasets: [{
+                label: 'Vehicle Status',
+                data: [40, 15, 10],
+                backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+                hoverOffset: 4
+            }]
+        }
+    });
 </script>
 
 </body>

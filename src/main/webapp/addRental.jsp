@@ -16,12 +16,12 @@
         }
 
         .container {
-            width: 80%;
+            /*width: 80%;
             margin: 30px auto;
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
         }
 
         .form-container {

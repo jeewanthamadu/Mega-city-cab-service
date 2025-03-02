@@ -12,31 +12,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            font-weight: bold;
             background-color: #f4f7fa;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            width: 90%;
-            max-width: 1200px;
-            margin-top: 40px;
+            padding: 30px;
+            background-color: #f4f7fa;
         }
 
         .form-table-container {
-            background-color: #fff;
             padding: 30px;
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border: 2px solid #4CAF50;
         }
 
         .form-header {
@@ -45,17 +33,21 @@
         }
 
         .form-header h1 {
-            font-size: 28px;
+            text-align: center;
             color: #4CAF50;
-            margin: 0;
+            margin-bottom: 30px;
+            font-weight: bold;
+
         }
 
         .form {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            align-items: center;
-            margin-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background: #fff;
         }
 
         .form-group {
@@ -66,10 +58,11 @@
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            color: #555;
+            color: #4CAF50;
+            font-weight: bold;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
