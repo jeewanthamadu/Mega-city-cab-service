@@ -12,6 +12,20 @@ import java.util.List;
 
 public class VehicleRepository {
 
+    public boolean setVehicleAvailability(int vehicleId, boolean availability) {
+        String query = "UPDATE vehicle SET availability = ? WHERE vehicle_id = ?";
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setBoolean(1, availability);
+            statement.setInt(2, vehicleId);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean addVehicle(Vehicle vehicle) {
         // Create the vehicle table if not exists
         String createTableQuery = "CREATE TABLE IF NOT EXISTS vehicle (" +
@@ -102,7 +116,7 @@ public class VehicleRepository {
 
     // Get the number of available vehicles
     public long getAvailableVehicles() {
-        String query = "SELECT COUNT(*) FROM vehicle WHERE status = 'Available'";  // Assuming status column
+        String query = "SELECT COUNT(*) FROM vehicle WHERE availability = TRUE";
         try (Connection connection = DbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

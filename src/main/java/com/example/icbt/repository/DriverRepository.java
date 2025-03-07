@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DriverRepository {
 
@@ -92,6 +94,40 @@ public class DriverRepository {
             e.printStackTrace();
         }
         return 0;  // If any error occurs, return 0
+    }
+
+    public Map<String, Integer> getDriverPerformance() {
+        Map<String, Integer> driverPerformance = new HashMap<>();
+        String query = "SELECT d.driver_name, COUNT(r.rental_id) AS rentals_completed " +
+                "FROM driver d " +
+                "LEFT JOIN rental r ON d.driver_id = r.driver_id " +
+                "GROUP BY d.driver_id, d.driver_name";
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                driverPerformance.put(resultSet.getString("driver_name"), resultSet.getInt("rentals_completed"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return driverPerformance;
+    }
+
+    public boolean setDriverAvailability(int driverId, boolean availability) {
+        String query = "UPDATE driver SET availability = ? WHERE driver_id = ?";
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setBoolean(1, availability);
+            statement.setInt(2, driverId);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

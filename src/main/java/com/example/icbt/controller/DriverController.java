@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/addDriver")
@@ -28,7 +29,7 @@ public class DriverController extends HttpServlet {
         String licenseNumber = req.getParameter("licenseNumber");
         String gearType = req.getParameter("gearType");
 
-        Driver driver = new Driver(driverName, age, email, phoneNumber, nic, licenseNumber, gearType);
+        Driver driver = new Driver(driverName, age, email, phoneNumber, nic, licenseNumber, gearType, LocalDateTime.now());
 
         DefaultResponse response = driverService.addDriver(driver);
 

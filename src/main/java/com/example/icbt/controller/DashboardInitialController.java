@@ -9,8 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/dashboard")
-public class DashboardController extends HttpServlet {
+@WebServlet("/dashboard-initial")
+public class DashboardInitialController extends HttpServlet {
     private final DashboardService dashboardService = new DashboardService();
 
     @Override
@@ -29,9 +29,7 @@ public class DashboardController extends HttpServlet {
         req.setAttribute("availableVehicles", availableVehicles);
 
         // Forward to the dashboard JSP
-        //req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
-        // Forward to the dashboard JSP
-        req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
+        req.getRequestDispatcher("dashboard-initial.jsp").forward(req, resp);
     }
 
 }
