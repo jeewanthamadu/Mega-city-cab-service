@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,10 +58,17 @@ public class RentalController extends HttpServlet {
         rental.setCustomerNic(customerNic);
         rental.setStatus(status);
 
-        boolean isAdded = rentalService.addRental(rental);
+        boolean isAdded = false;
+        try {
+            isAdded = rentalService.addRental(rental);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         if (isAdded) {
-            resp.sendRedirect("addRental");
+            //resp.sendRedirect("addRental");
+            req.getRequestDispatcher("addRental").forward(req, resp);
+
         } else {
             resp.sendRedirect("addRental.jsp?error=Failed to add rental");
         }

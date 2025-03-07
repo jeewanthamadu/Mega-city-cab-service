@@ -1,8 +1,10 @@
 package com.example.icbt.entity;
 
+import java.time.LocalDateTime;
+
 public class Driver {
 
-    public Driver(int driverId, String driverName, int age, String email, String phoneNumber, String nic, String licenseNumber, String gearType, boolean availability) {
+    public Driver(int driverId, String driverName, int age, String email, String phoneNumber, String nic, String licenseNumber, String gearType, LocalDateTime createdAt, boolean availability) {
         this.driverId = driverId;
         this.driverName = driverName;
         this.age = age;
@@ -11,7 +13,11 @@ public class Driver {
         this.nic = nic;
         this.licenseNumber = licenseNumber;
         this.gearType = gearType;
+        this.createdAt = createdAt;
         this.availability = availability;
+    }
+
+    public Driver() {
     }
 
     public int getDriverId() {
@@ -30,13 +36,9 @@ public class Driver {
     private String nic;
     private String licenseNumber;
     private String gearType;
+    private LocalDateTime createdAt;
 
-    // Constructor
-    public Driver() {}
-
-
-
-    public Driver(String driverName, int age, String email, String phoneNumber, String nic, String licenseNumber, String gearType) {
+    public Driver(String driverName, int age, String email, String phoneNumber, String nic, String licenseNumber, String gearType, LocalDateTime createdAt) {
         this.driverName = driverName;
         this.age = age;
         this.email = email;
@@ -44,6 +46,7 @@ public class Driver {
         this.nic = nic;
         this.licenseNumber = licenseNumber;
         this.gearType = gearType;
+        this.createdAt = createdAt;
         this.availability = availability;
     }
 
@@ -113,4 +116,11 @@ public class Driver {
         this.gearType = gearType;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

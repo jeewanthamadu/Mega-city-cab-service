@@ -6,6 +6,7 @@ import com.example.icbt.model.DefaultResponse;
 import com.example.icbt.repository.DriverRepository;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class DriverService {
@@ -27,5 +28,10 @@ public class DriverService {
         System.out.println("vehicle list size : "+allDrivers.size());
         return allDrivers;
     }
+
+    public Map<String, Integer> getDriverPerformance() {
+        return driverRepository.getDriverPerformance();
+    }
+
 
 }

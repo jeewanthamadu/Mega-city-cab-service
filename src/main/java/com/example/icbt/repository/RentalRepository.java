@@ -9,7 +9,15 @@ import java.util.List;
 
 public class RentalRepository {
 
-    public boolean addRental(Rental rental) {
+    private static final VehicleRepository vehicleRepository;
+    private static final DriverRepository driverRepository;
+
+    static {
+        vehicleRepository = new VehicleRepository();
+        driverRepository = new DriverRepository();
+    }
+
+    public boolean addRental(Rental rental) throws SQLException {
         String createTableQuery = "CREATE TABLE IF NOT EXISTS rental (" +
                 "rental_id INT AUTO_INCREMENT PRIMARY KEY, " +
                 "vehicle_id INT NOT NULL, " +
@@ -27,6 +35,8 @@ public class RentalRepository {
              PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
              PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
 
+            connection.setAutoCommit(false); // Start transaction
+
             createTableStatement.executeUpdate();
 
             insertStatement.setInt(1, rental.getVehicleId());
@@ -39,15 +49,50 @@ public class RentalRepository {
             insertStatement.setDate(4, new java.sql.Date(rental.getReturnDate().getTime()));
             insertStatement.setString(5, rental.getDescription());
             insertStatement.setInt(6, rental.getCustomerId());
-            //insertStatement.setString(7, rental.getCustomerNic());
             insertStatement.setString(7, rental.getStatus());
 
             int rowsAffected = insertStatement.executeUpdate();
 
-            return rowsAffected > 0;
+            if (rowsAffected > 0) {
+                // Update vehicle availability
+                if (!vehicleRepository.setVehicleAvailability(rental.getVehicleId(), false)) {
+                    connection.rollback();
+                    return false;
+                }
+
+                // Update driver availability if a driver is assigned
+                if (rental.getDriverId() != null) {
+                    if (!driverRepository.setDriverAvailability(rental.getDriverId(), false)) {
+                        connection.rollback();
+                        return false;
+                    }
+                }
+                connection.commit();
+                return true;
+
+            } else {
+                connection.rollback();
+                return false;
+            }
+
         } catch (SQLException e) {
+            if (DbConnection.getConnection() != null) {
+                try {
+                    DbConnection.getConnection().rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
             e.printStackTrace();
             return false;
+        } finally {
+            if (DbConnection.getConnection() != null) {
+                try {
+                    DbConnection.getConnection().setAutoCommit(true);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
