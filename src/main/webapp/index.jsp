@@ -4,16 +4,140 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f0f0, #e8e8e8); /* Very light gray gradient */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333; /* Dark gray text */
+        }
 
-        /* Icon Style */
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Light white with transparency */
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #4a5568; /* Darker gray */
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .login-header h2 {
+            color: #718096; /* Medium gray */
+            margin: 5px 0 0;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            background-color: #f9f9f9; /* Very light gray */
+            color: #333;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .login-button {
+            background: linear-gradient(135deg, #4299e1, #3182ce); /* Light blue gradient */
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .login-button:hover {
+            background: linear-gradient(135deg, #3182ce, #4299e1);
+        }
+
+        .error-message {
+            color: #e53e3e; /* Red error */
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .form-group i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+        }
+
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .notification {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        .notification.success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .notification.error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
         .notification .icon {
             margin-right: 10px;
             font-size: 18px;
         }
 
-        /* Close Button */
         .notification .close-btn {
             margin-left: auto;
             cursor: pointer;
@@ -27,22 +151,21 @@
     </style>
     <script>
         function showNotification(message, type = 'success') {
-            console.log("Message received:", message); // Debug log
+            console.log("showNotification called with message:", message, "and type:", type); // Debug log
 
             const container = document.querySelector('.notification-container') || createNotificationContainer();
             const notification = document.createElement('div');
             notification.classList.add('notification', 'show', type);
 
             // Choose icon based on type
-            // const icon = type === 'error' ? '❌' : '✅';
             const iconContent = (type === 'error' ? '❌' : '✅');
 
             // Notification Content
             notification.innerHTML = `
-      <span class="icon">${iconContent}</span>
-      <span class="message"></span>
-      <span class="close-btn" onclick="this.parentElement.remove()">×</span>
-  `;
+        <span class="icon">${iconContent}</span>
+        <span class="message"></span>
+        <span class="close-btn" onclick="this.parentElement.remove()">×</span>
+    `;
 
             notification.querySelector('.message').textContent = message;
 
@@ -63,98 +186,23 @@
             document.body.appendChild(container);
             return container;
         }
-
-        // On page load, check URL params for messages
-        window.onload = function () {
+       /* window.onload = function () {
             const urlParams = new URLSearchParams(window.location.search);
             const success = urlParams.get('success');
             const error = urlParams.get('error');
 
             if (success) {
-                showNotification(decodeURIComponent(success), 'success'); // Decode and show success
+                showNotification(decodeURIComponent(success), 'success');
             } else if (error) {
-                showNotification(decodeURIComponent(error), 'error'); // Decode and show error
+                showNotification(decodeURIComponent(error), 'error');
             }
-        };
+        };*/
     </script>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .login-header h2 {
-            color: #333;
-            margin: 0;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        .login-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-
-        .login-button:hover {
-            background-color: #45a049;
-        }
-
-        .error-message {
-            color: #ff0000;
-            text-align: center;
-            margin-top: 10px;
-        }
-    </style>
 </head>
 <body>
 <div class="login-container">
     <div class="login-header">
-        <h1>Mega City Cab Admin Module</h1>
-        <h2>Login</h2>
+        <h1>Mega City Cab Admin Login</h1>
     </div>
 
     <form action="login" method="post">
@@ -175,8 +223,37 @@
             <%= request.getParameter("error") %>
         </div>
         <% } %>
-
     </form>
 </div>
+
+<script>
+    window.onload = function () {
+        // Retrieve messages from session
+        const successMessageSession = "<%= session.getAttribute("successMessage") %>";
+        const errorMessageSession = "<%= session.getAttribute("errorMessage") %>";
+
+        // Retrieve messages from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const successUrl = urlParams.get('success');
+        const errorUrl = urlParams.get('error');
+
+        // Display session messages
+        if (successMessageSession && successMessageSession !== "null") {
+            showNotification(successMessageSession, 'success');
+            <% session.removeAttribute("successMessage"); %>
+        } else if (errorMessageSession && errorMessageSession !== "null") {
+            showNotification(errorMessageSession, 'error');
+            <% session.removeAttribute("errorMessage"); %>
+        }
+
+        // Display URL parameter messages
+        if (successUrl) {
+            showNotification(decodeURIComponent(successUrl), 'success');
+        } else if (errorUrl) {
+            showNotification(decodeURIComponent(errorUrl), 'error');
+        }
+    };
+</script>
+
 </body>
 </html>
