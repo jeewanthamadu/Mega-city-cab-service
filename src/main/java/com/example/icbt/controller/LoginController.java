@@ -19,21 +19,15 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         DefaultResponse response = loginService.adminLogin(req);
+        HttpSession session = req.getSession();
 
         if (response.isStatus()) {
-            HttpSession session = req.getSession();
             session.setAttribute("user", response.getData());
-            //resp.sendRedirect("addVehicle.jsp");
-           // resp.sendRedirect("addVehicle.jsp?success=successfully!");
-            String successMessage = URLEncoder.encode("Login successful!", "UTF-8");
+            session.setAttribute("successMessage", "Login successful!"); // Set success message
             resp.sendRedirect("dashboard");
-
         } else {
-//            resp.sendRedirect("index.jsp?error=" + response.getMessage());
-            //resp.sendRedirect("index.jsp?error=Failed!");
-            String errorMessage = URLEncoder.encode("Login failed. Please try again!", "UTF-8");
-            resp.sendRedirect("index.jsp?error=" + errorMessage);
-
+            session.setAttribute("errorMessage", "Login failed. Please try again!"); // Set error message
+            resp.sendRedirect("index.jsp");
         }
     }
 }
