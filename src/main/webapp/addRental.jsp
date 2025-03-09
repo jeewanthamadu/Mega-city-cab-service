@@ -16,12 +16,14 @@
         }
 
         .container {
-            /*width: 80%;
+            width: 90%;
             margin: 30px auto;
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 80vh;
+            overflow: hidden;
         }
 
         .form-container {
@@ -71,10 +73,15 @@
             background-color: #218838;
         }
 
+        .table-container {
+            height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
             background: white;
             border-radius: 10px;
             overflow: hidden;
@@ -89,6 +96,8 @@
         th {
             background-color: #28a745;
             color: white;
+            position: sticky;
+            top: 0;
         }
 
         tr:nth-child(even) {
@@ -106,6 +115,22 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+        }
+
+        .notification {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
         }
     </style>
 </head>
@@ -170,33 +195,47 @@
         <input type="text" placeholder="Search rentals...">
     </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Rental ID</th>
-            <th>Vehicle ID</th>
-            <th>Driver ID</th>
-            <th>Customer ID</th>
-            <th>Rent Date</th>
-            <th>Return Date</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="rental" items="${rentalList}">
+    <div class="table-container">
+        <table>
+            <thead>
             <tr>
-                <td>${rental.rentalId}</td>
-                <td>${rental.vehicleId}</td>
-                <td>${rental.driverId != null ? rental.driverId : 'None'}</td>
-                <td>${rental.customerId}</td>
-                <td>${rental.rentDate}</td>
-                <td>${rental.returnDate}</td>
-                <td>${rental.status}</td>
+                <th>Rental ID</th>
+                <th>Vehicle ID</th>
+                <th>Driver ID</th>
+                <th>Customer ID</th>
+                <th>Rent Date</th>
+                <th>Return Date</th>
+                <th>Action</th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach var="rental" items="${rentalList}">
+                <tr>
+                    <td>${rental.rentalId}</td>
+                    <td>${rental.vehicleId}</td>
+                    <td>${rental.driverId != null ? rental.driverId : 'None'}</td>
+                    <td>${rental.customerId}</td>
+                    <td>${rental.rentDate}</td>
+                    <td>${rental.returnDate}</td>
+                    <td>${rental.status}</td>
+                    <td>
+                        <c:if test="${rental.status == 'Rent'}">
+                            <form action="returnVehicle" method="post">
+                                <input type="hidden" name="rentalId" value="${rental.rentalId}">
+                                <button type="submit">Return Vehicle</button>
+                            </form>
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
-
+<script>
+    // JavaScript specific to addRental.jsp
+    console.log("Add Rental page loaded.");
+    alert("Welcome to the Add Rental page!");
+</script>
 </body>
 </html>

@@ -48,7 +48,9 @@ public class VehicleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         List<Vehicle> vehicleList = vehicleService.getAllVehicles();
+        List<Vehicle> availableVehicleList = vehicleService.getAvailableVehicles();
         req.setAttribute("vehicleList", vehicleList);
+        req.setAttribute("availableVehicleList", availableVehicleList);
         req.getRequestDispatcher("addVehicle.jsp").forward(req, resp);
     }
 

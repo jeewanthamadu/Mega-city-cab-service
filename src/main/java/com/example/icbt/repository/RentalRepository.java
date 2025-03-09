@@ -4,6 +4,7 @@ import com.example.icbt.config.DbConnection;
 import com.example.icbt.entity.Rental;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,5 +170,75 @@ public class RentalRepository {
         }
         return 0;  // If any error occurs, return 0
     }
+
+    public boolean returnVehicle(int rentalId) throws SQLException {
+        String updateQuery = "UPDATE rental SET status = 'Return', return_date = ? WHERE rental_id = ?";
+        String selectQuery = "SELECT vehicle_id, driver_id FROM rental WHERE rental_id = ?";
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+             PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+
+            connection.setAutoCommit(false); // Start transaction
+
+            // Update rental status and return date
+            updateStatement.setDate(1, Date.valueOf(LocalDate.now()));
+            updateStatement.setInt(2, rentalId);
+            int rowsUpdated = updateStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                // Get vehicle and driver IDs from the rental
+                selectStatement.setInt(1, rentalId);
+                ResultSet resultSet = selectStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    int vehicleId = resultSet.getInt("vehicle_id");
+                    Integer driverId = resultSet.getObject("driver_id", Integer.class); // Handle null driverId
+
+                    // Set vehicle availability to true
+                    if (!vehicleRepository.setVehicleAvailability(vehicleId, true)) {
+                        connection.rollback();
+                        return false;
+                    }
+
+                    // Set driver availability to true if a driver was assigned
+                    if (driverId != null) {
+                        if (!driverRepository.setDriverAvailability(driverId, true)) {
+                            connection.rollback();
+                            return false;
+                        }
+                    }
+
+                    connection.commit();
+                    return true;
+                } else {
+                    connection.rollback();
+                    return false; // Rental not found
+                }
+            } else {
+                connection.rollback();
+                return false; // Update failed
+            }
+        } catch (SQLException e) {
+            if (DbConnection.getConnection() != null) {
+                try {
+                    DbConnection.getConnection().rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (DbConnection.getConnection() != null) {
+                try {
+                    DbConnection.getConnection().setAutoCommit(true);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
 }
 

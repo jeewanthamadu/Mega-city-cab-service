@@ -29,6 +29,12 @@ public class DriverService {
         return allDrivers;
     }
 
+    public List<Driver> getAvailableDrivers() {
+        List<Driver> availableDrivers = driverRepository.getAllAvailableDrivers();
+        System.out.println("availableDrivers list size : "+availableDrivers.size());
+        return availableDrivers;
+    }
+
     public Map<String, Integer> getDriverPerformance() {
         return driverRepository.getDriverPerformance();
     }
