@@ -80,6 +80,33 @@ public class DriverRepository {
         return drivers;
     }
 
+    public List<Driver> getAllAvailableDrivers() {
+        List<Driver> drivers = new ArrayList<>();
+        String query = "SELECT * FROM driver WHERE availability = 1";
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Driver driver = new Driver();
+                driver.setDriverName(resultSet.getString("driver_name"));
+                driver.setDriverId(resultSet.getInt("driver_id"));
+                driver.setAge(resultSet.getInt("age"));
+                driver.setEmail(resultSet.getString("email"));
+                driver.setPhoneNumber(resultSet.getString("phone_number"));
+                driver.setNic(resultSet.getString("nic"));
+                driver.setLicenseNumber(resultSet.getString("license_number"));
+                driver.setGearType(resultSet.getString("gear_type"));
+
+                drivers.add(driver);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return drivers;
+    }
+
     public long getDriverCount() {
         String query = "SELECT COUNT(*) FROM driver";  // Assuming the table name is 'drivers'
 

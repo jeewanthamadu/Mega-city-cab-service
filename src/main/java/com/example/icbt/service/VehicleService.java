@@ -19,4 +19,10 @@ public class VehicleService {
         return allVehicles;
     }
 
+    public List<Vehicle> getAvailableVehicles() {
+        List<Vehicle> allAvailableVehicles = vehicleRepository.getAllAvailableVehicles();
+        System.out.println("all Available Vehicles list size : "+allAvailableVehicles.size());
+        return allAvailableVehicles;
+    }
+
 }

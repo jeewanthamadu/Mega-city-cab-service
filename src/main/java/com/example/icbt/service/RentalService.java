@@ -19,4 +19,8 @@ public class RentalService {
         return rentalRepository.getAllRentals();
     }
 
+    public boolean returnVehicle(int rentalId) throws SQLException {
+        return rentalRepository.returnVehicle(rentalId);
+    }
+
 }

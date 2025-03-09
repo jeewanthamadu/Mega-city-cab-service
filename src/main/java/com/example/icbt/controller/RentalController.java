@@ -66,11 +66,9 @@ public class RentalController extends HttpServlet {
         }
 
         if (isAdded) {
-            //resp.sendRedirect("addRental");
-            req.getRequestDispatcher("addRental").forward(req, resp);
-
+            resp.sendRedirect("addRental");
         } else {
-            resp.sendRedirect("addRental.jsp?error=Failed to add rental");
+            resp.sendRedirect("addRental?error=Failed to add rental");
         }
     }
 
@@ -80,11 +78,11 @@ public class RentalController extends HttpServlet {
         req.setAttribute("rentalList", rentalList);
 
         VehicleService vehicleService = new VehicleService(); // Assuming you have a VehicleService
-        List<Vehicle> vehicleList = vehicleService.getAllVehicles();
+        List<Vehicle> vehicleList = vehicleService.getAvailableVehicles();
         req.setAttribute("vehicleList", vehicleList);
 
         DriverService driverService = new DriverService(); // Assuming you have a VehicleService
-        List<Driver> driverList = driverService.getAllDrivers();
+        List<Driver> driverList = driverService.getAvailableDrivers();
         req.setAttribute("driverList", driverList);
 
         CustomerService customerService = new CustomerService(); // Assuming you have a VehicleService
