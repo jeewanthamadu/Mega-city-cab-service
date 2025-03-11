@@ -18,14 +18,13 @@ public class VehicleController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-
         String brand = req.getParameter("brand");
         String model = req.getParameter("model");
         String vehicleNumber = req.getParameter("number");
         int year = Integer.parseInt(req.getParameter("year"));
         String gearMode = req.getParameter("gearMode");
         String color = req.getParameter("color");
-        int seatCount = Integer.parseInt(req.getParameter("seatCount"));
+        double value = Double.parseDouble(req.getParameter("value"));  // ✅ Added value
 
         Vehicle vehicle = new Vehicle();
         vehicle.setBrand(brand);
@@ -34,14 +33,13 @@ public class VehicleController extends HttpServlet {
         vehicle.setYear(year);
         vehicle.setGearMode(gearMode);
         vehicle.setColor(color);
-        vehicle.setSeatCount(seatCount);
+        vehicle.setValue(value);  // ✅ Set value
 
         boolean isAdded = vehicleService.addVehicle(vehicle);
-        //doGet(req, resp);
         if (isAdded) {
             resp.sendRedirect("addVehicle");
         } else {
-            resp.sendRedirect("addVehicle.jsp?error=Failed to add vehicle");  // Redirect with an error message
+            resp.sendRedirect("addVehicle.jsp?error=Failed to add vehicle");
         }
     }
 

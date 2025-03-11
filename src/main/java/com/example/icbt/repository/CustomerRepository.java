@@ -72,5 +72,93 @@ public class CustomerRepository {
         }
         return customers;
     }
+
+    public boolean deleteCustomer(String nic) {
+        String deleteQuery = "DELETE FROM customer WHERE nic = ?";
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
+
+            statement.setString(1, nic);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Customer getCustomerById(int customerId) {
+        String query = "SELECT * FROM customer WHERE customer_id = ?";
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, customerId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("name"));
+                customer.setNic(resultSet.getString("nic"));
+                customer.setLicenseNumber(resultSet.getString("license_number"));
+                customer.setAge(resultSet.getInt("age"));
+                customer.setPhoneNumber(resultSet.getString("phone_number"));
+                customer.setEmail(resultSet.getString("email"));
+                return customer;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean updateCustomerByNic(Customer customer) {
+        String updateQuery = "UPDATE customer SET name = ?, license_number = ?, age = ?, phone_number = ?, email = ? WHERE nic = ?";
+
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+
+            statement.setString(1, customer.getName());
+            statement.setString(2, customer.getLicenseNumber());
+            statement.setInt(3, customer.getAge());
+            statement.setString(4, customer.getPhoneNumber());
+            statement.setString(5, customer.getEmail());
+            statement.setString(6, customer.getNic());
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Customer getCustomerByNic(String customerNic) {
+        String query = "SELECT * FROM customer WHERE nic = ?";
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, customerNic);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("name"));
+                customer.setNic(resultSet.getString("nic"));
+                customer.setLicenseNumber(resultSet.getString("license_number"));
+                customer.setAge(resultSet.getInt("age"));
+                customer.setPhoneNumber(resultSet.getString("phone_number"));
+                customer.setEmail(resultSet.getString("email"));
+                return customer;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
 
