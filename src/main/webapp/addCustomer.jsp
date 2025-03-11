@@ -21,7 +21,7 @@
         }
 
         .container {
-            padding: 30px;
+            position: relative; /* Ensure relative positioning for proper stacking */
         }
 
         .form-table-container {
@@ -42,10 +42,10 @@
         .form {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 5px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            padding: 10px;
             background: rgba(255, 255, 255, 0.8);
         }
 
@@ -113,8 +113,9 @@
         }
 
         .table-container {
-            max-height: 400px;
+            max-height: 247px;
             overflow-y: auto;
+            position: relative; /* Important for sticky header */
         }
 
         table {
@@ -132,12 +133,19 @@
             position: sticky;
             top: 0;
             z-index: 1;
+            overflow: hidden;
+
+        }
+        thead th {
+            overflow: hidden;
         }
 
         th, td {
             padding: 12px;
             border-bottom: 1px solid #ddd;
             text-align: left;
+            overflow: hidden;
+
         }
 
         tr:nth-child(even) {
@@ -172,6 +180,7 @@
             left: 20px;
             background: linear-gradient(110deg, #2f5575, #006fd7);
             color: white;
+            margin: 10px;
             padding: 10px;
             border: none;
             border-radius: 50%;

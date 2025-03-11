@@ -11,12 +11,24 @@ public class Rental {
     private String description;
     private int customerId;
     private String customerNic;
-    private String status;
 
     public Rental() {
     }
 
-    public Rental(int rentalId, int vehicleId, Integer driverId, Date rentDate, Date returnDate, String description, int customerId, String customerNic, String status) {
+    private String status;
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    private double cost;
+
+
+    public Rental(int rentalId, int vehicleId, Integer driverId, Date rentDate, Date returnDate, String description, int customerId, String customerNic, String status, double cost) {
         this.rentalId = rentalId;
         this.vehicleId = vehicleId;
         this.driverId = driverId;
@@ -26,6 +38,7 @@ public class Rental {
         this.customerId = customerId;
         this.customerNic = customerNic;
         this.status = status;
+        this.cost = cost;
     }
 
     public int getRentalId() {

@@ -300,6 +300,7 @@
                 <th>Return Date</th>
                 <th>Status</th>
                 <th>Action</th>
+                <th>Cost</th>
             </tr>
             </thead>
             <tbody>
@@ -312,6 +313,7 @@
                     <td>${rental.rentDate}</td>
                     <td>${rental.returnDate}</td>
                     <td>${rental.status}</td>
+                <td>${rental.cost}</td>
                     <td class="action-buttons">
                         <c:if test="${rental.status == 'Rent'}">
                             <form action="returnVehicle" method="post">

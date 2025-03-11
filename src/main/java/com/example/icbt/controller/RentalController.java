@@ -1,5 +1,6 @@
 package com.example.icbt.controller;
 
+import com.example.icbt.config.DbConnection;
 import com.example.icbt.entity.Customer;
 import com.example.icbt.entity.Driver;
 import com.example.icbt.entity.Rental;
@@ -15,6 +16,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,6 +61,10 @@ public class RentalController extends HttpServlet {
         rental.setCustomerId(customerId);
         rental.setCustomerNic(customerNic);
         rental.setStatus(status);
+// Calculate rental cost
+        double vehicleCostPerDay = getVehicleCost(rental.getVehicleId()); // Assuming this function exists
+        long rentalDays = (rental.getReturnDate().getTime() - rental.getRentDate().getTime()) / (1000 * 60 * 60 * 24);
+        rental.setCost(vehicleCostPerDay * rentalDays); // Set the calculated cost
 
         boolean isAdded = false;
         try {
@@ -70,6 +78,22 @@ public class RentalController extends HttpServlet {
         } else {
             resp.sendRedirect("addRental?error=Failed to add rental");
         }
+    }
+
+    private double getVehicleCost(int vehicleId) {
+        double cost = 0.0;
+        String query = "SELECT value FROM vehicle WHERE vehicle_id = ?";
+        try (Connection connection = DbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, vehicleId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                cost = resultSet.getDouble("value");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cost;
     }
 
     @Override

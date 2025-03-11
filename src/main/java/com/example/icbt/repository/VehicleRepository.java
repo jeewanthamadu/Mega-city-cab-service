@@ -36,38 +36,35 @@ public class VehicleRepository {
                 "year INT NOT NULL, " +
                 "gear_mode VARCHAR(50) NOT NULL, " +
                 "color VARCHAR(50) NOT NULL, " +
-                "seat_count INT NOT NULL, " +
+                "value DOUBLE NOT NULL, " +   // ✅ Added value column
                 "availability BOOLEAN DEFAULT TRUE)";
 
-
-        String insertQuery = "INSERT INTO vehicle (brand, model, vehicle_number, year, gear_mode, color, seat_count) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
+        String insertQuery = "INSERT INTO vehicle (brand, model, vehicle_number, year, gear_mode, color, value) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";   // ✅ Removed seat_count, added value
 
         try (Connection connection = DbConnection.getConnection();
              PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
              PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
 
-            // Ensure the table exists before performing the insert
-            createTableStatement.executeUpdate();
+            createTableStatement.executeUpdate();  // Ensure table exists
 
-            // Insert vehicle data into the table
+            // Insert vehicle data
             insertStatement.setString(1, vehicle.getBrand());
             insertStatement.setString(2, vehicle.getModel());
             insertStatement.setString(3, vehicle.getVehicleNumber());
             insertStatement.setInt(4, vehicle.getYear());
             insertStatement.setString(5, vehicle.getGearMode());
             insertStatement.setString(6, vehicle.getColor());
-            insertStatement.setInt(7, vehicle.getSeatCount());
+            insertStatement.setDouble(7, vehicle.getValue()); // ✅ Set value
 
             int rowsAffected = insertStatement.executeUpdate();
-
-            return rowsAffected > 0; // Return true if the vehicle was successfully added
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();  // Handle the exception (possibly logging it)
+            e.printStackTrace();
             return false;
         }
     }
+
 
     public List<Vehicle> getAllVehicles() {
         List<Vehicle> vehicles = new ArrayList<>();
@@ -86,7 +83,7 @@ public class VehicleRepository {
                 vehicle.setYear(resultSet.getInt("year"));
                 vehicle.setGearMode(resultSet.getString("gear_mode"));
                 vehicle.setColor(resultSet.getString("color"));
-                vehicle.setSeatCount(resultSet.getInt("seat_count"));
+                vehicle.setValue(resultSet.getDouble("value"));
                 vehicle.setAvailability(resultSet.getBoolean("availability"));
 
                 vehicles.add(vehicle);
@@ -114,7 +111,7 @@ public class VehicleRepository {
                 vehicle.setYear(resultSet.getInt("year"));
                 vehicle.setGearMode(resultSet.getString("gear_mode"));
                 vehicle.setColor(resultSet.getString("color"));
-                vehicle.setSeatCount(resultSet.getInt("seat_count"));
+                vehicle.setValue(resultSet.getDouble("value"));  // ✅ Set value
                 vehicle.setAvailability(resultSet.getBoolean("availability"));
 
                 vehicles.add(vehicle);

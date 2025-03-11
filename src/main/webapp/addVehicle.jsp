@@ -17,83 +17,24 @@
             padding: 0;
             color: #333;
         }
-
         .container {
             padding: 30px;
         }
-
-        .form-table-container {
-            padding: 30px;
-        }
-
-        .form-header {
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2d3748;
             text-align: center;
-            margin-bottom: 30px;
         }
-
-        .form-header h1 {
-            color: #4a5568;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
         .form {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
         }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #718096;
-            font-weight: 500;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-            background: #f9f9f9;
-            color: #333;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .submit-button {
-            background: linear-gradient(135deg, #4299e1, #3182ce);
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 20px;
-            transition: background 0.3s ease;
-        }
-
-        .submit-button:hover {
-            background: linear-gradient(135deg, #3182ce, #4299e1);
-        }
-
-        .error-message {
-            color: #e53e3e;
-            text-align: center;
-            margin-top: 10px;
-        }
-
         .search-bar {
             margin-bottom: 40px;
             text-align: center;
@@ -110,38 +51,56 @@
             color: #333;
         }
 
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            color: #718096;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .submit-button {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .search-bar {
+            margin: 20px auto;
+            text-align: center;
+            width: 80%;
+        }
         .table-container {
             max-height: 400px;
             overflow-y: auto;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
             background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-
         thead {
             background: linear-gradient(135deg, #4299e1, #3182ce);
             color: white;
             position: sticky;
             top: 0;
-            z-index: 1;
         }
-
         th, td {
             padding: 12px;
             border-bottom: 1px solid #ddd;
             text-align: left;
         }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
         .action-buttons button {
             margin-right: 5px;
             padding: 5px 10px;
@@ -149,95 +108,49 @@
             border-radius: 4px;
             cursor: pointer;
             color: white;
-            transition: background 0.3s ease;
         }
-
         .edit-button {
             background-color: #FFC107;
         }
-
         .delete-button {
             background-color: #F44336;
         }
-
-        .action-buttons button:hover {
-            opacity: 0.8;
-        }
-
         .dashboard-button {
             position: fixed;
             top: 20px;
             left: 20px;
-            background: linear-gradient(110deg, #2f5575, #006fd7);
-            color: white;
+            background-color: #4299e1;
             padding: 10px;
-            border: none;
             border-radius: 50%;
-            cursor: pointer;
+            color: white;
             font-size: 20px;
             text-decoration: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s ease, transform 0.2s ease;
-            overflow: hidden;
-            position: relative;
-            z-index: 100;
-        }
-
-        .dashboard-button:hover {
-            background: linear-gradient(135deg, #3182ce, #4299e1);
-            transform: translateY(-2px);
-        }
-
-        .dashboard-button::before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease;
-            z-index: -1;
-        }
-
-        .dashboard-button:hover::before {
-            width: 150%;
-            height: 150%;
-        }
-
-        .dashboard-button i {
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
+
 </head>
 <body>
-
 <a href="dashboard" class="dashboard-button"><i class="fas fa-home"></i></a>
 
 <div class="container">
-    <div class="form-header">
-        <h1>Vehicle Management</h1>
-    </div>
-
+    <h1>Vehicle Management</h1>
     <form action="addVehicle" method="post" class="form">
         <div class="form-group">
             <label for="brand">Brand</label>
-            <input type="text" id="brand" name="brand" required/>
+            <input type="text" id="brand" name="brand" required />
         </div>
         <div class="form-group">
             <label for="model">Model</label>
-            <input type="text" id="model" name="model" required/>
+            <input type="text" id="model" name="model" required />
         </div>
         <div class="form-group">
             <label for="number">Vehicle Number</label>
-            <input type="text" id="number" name="number" required/>
+            <input type="text" id="number" name="number" required />
         </div>
         <div class="form-group">
             <label for="year">Year</label>
-            <input type="number" id="year" name="year" min="1900" max="2099" required/>
+            <input type="number" id="year" name="year" min="1900" max="2099" required />
         </div>
         <div class="form-group">
             <label for="gearMode">Gear Mode</label>
@@ -249,11 +162,11 @@
         </div>
         <div class="form-group">
             <label for="color">Color</label>
-            <input type="text" id="color" name="color" required/>
+            <input type="text" id="color" name="color" required />
         </div>
         <div class="form-group">
-            <label for="seatCount">Seat Count</label>
-            <input type="number" id="seatCount" name="seatCount" min="1" required/>
+            <label for="value">Value ($)</label>
+            <input type="number" id="value" name="value" step="0.01" required />
         </div>
         <div class="form-group">
             <label for="availability">Availability</label>
@@ -263,15 +176,10 @@
             </select>
         </div>
         <button type="submit" class="submit-button">Add Vehicle</button>
-        <% if (request.getParameter("error") != null) { %>
-        <div class="error-message"><%= request.getParameter("error") %></div>
-        <% } %>
     </form>
-
     <div class="search-bar">
-        <input type="text" id="search" placeholder="Search vehicles..." onkeyup="filterTable()"/>
+        <input type="text" id="search" placeholder="Search vehicles..." onkeyup="filterTable()" />
     </div>
-
     <div class="table-container">
         <table id="vehicleTable">
             <thead>
@@ -282,7 +190,7 @@
                 <th>Year</th>
                 <th>Gear Mode</th>
                 <th>Color</th>
-                <th>Seats</th>
+                <th>Value ($)</th>
                 <th>Availability</th>
                 <th>Actions</th>
             </tr>
@@ -298,7 +206,7 @@
                 <td><%= vehicle.getYear() %></td>
                 <td><%= vehicle.getGearMode() %></td>
                 <td><%= vehicle.getColor() %></td>
-                <td><%= vehicle.getSeatCount() %></td>
+                <td><%= vehicle.getValue() %></td>
                 <td><%= vehicle.isAvailability() ? "Available" : "Not Available" %></td>
                 <td class="action-buttons">
                     <button class="edit-button"><i class="fas fa-edit"></i></button>
@@ -311,7 +219,6 @@
         </table>
     </div>
 </div>
-</div>
 
 <script>
     function filterTable() {
@@ -319,10 +226,9 @@
         const filter = input.value.toLowerCase();
         const table = document.getElementById("vehicleTable");
         const trs = table.getElementsByTagName("tr");
-
         for (let i = 1; i < trs.length; i++) {
-            const tds = trs[i].getElementsByTagName("td");
             let showRow = false;
+            const tds = trs[i].getElementsByTagName("td");
             for (let j = 0; j < tds.length - 1; j++) {
                 if (tds[j].innerText.toLowerCase().includes(filter)) {
                     showRow = true;
