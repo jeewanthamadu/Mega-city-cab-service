@@ -270,9 +270,9 @@
             <select name="status" id="status" required>
                 <option value="">Select Status</option>
                 <option value="Rent">Rent</option>
-                <option value="Return">Return</option>
+                <%--<option value="Return">Return</option>
                 <option value="Cancel">Cancel</option>
-                <option value="Complete">Complete</option>
+                <option value="Complete">Complete</option>--%>
             </select>
         </div>
         <button type="submit" class="submit-button">Add Rental</button>
@@ -299,8 +299,8 @@
                 <th>Rent Date</th>
                 <th>Return Date</th>
                 <th>Status</th>
-                <th>Action</th>
                 <th>Cost</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -313,7 +313,7 @@
                     <td>${rental.rentDate}</td>
                     <td>${rental.returnDate}</td>
                     <td>${rental.status}</td>
-                <td>${rental.cost}</td>
+                    <td>${rental.cost}</td>
                     <td class="action-buttons">
                         <c:if test="${rental.status == 'Rent'}">
                             <form action="returnVehicle" method="post">

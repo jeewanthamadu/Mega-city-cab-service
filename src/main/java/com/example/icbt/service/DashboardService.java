@@ -1,5 +1,6 @@
 package com.example.icbt.service;
 
+import com.example.icbt.repository.CustomerRepository;
 import com.example.icbt.repository.DriverRepository;
 import com.example.icbt.repository.RentalRepository;
 import com.example.icbt.repository.VehicleRepository;
@@ -8,10 +9,23 @@ public class DashboardService {
     private final RentalRepository rentalRepository = new RentalRepository();
     private final VehicleRepository vehicleRepository = new VehicleRepository();
     private final DriverRepository driverRepository = new DriverRepository();  // Added DriverRepository
+    private final CustomerRepository customerRepository = new CustomerRepository();  // Added DriverRepository
 
     // Method to get the total number of rentals
     public long getTotalRentals() {
         return rentalRepository.getTotalRentals();  // Count rentals
+    }
+
+    public long getCompletedRentals() {
+        return rentalRepository.getCompletedRentals();  // Count rentals
+    }
+
+    public long getTotalCustomers() {
+        return customerRepository.getAllCustomers().size();  // Count vehicles
+    }
+
+    public double getTotalIncome() {
+        return rentalRepository.getTotalReturnedRentalsCost();  // Count vehicles
     }
 
     // Method to get the total number of vehicles

@@ -41,6 +41,8 @@ public class RentalController extends HttpServlet {
         String customerNic = req.getParameter("customerNic");
         String status = req.getParameter("status");
 
+        System.out.println("rentDateStr : " + rentDateStr);
+        System.out.println("returnDateStr : " + returnDateStr);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date rentDate = null;
         Date returnDate = null;
@@ -51,6 +53,8 @@ public class RentalController extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        System.out.println("rentDate : " + rentDate);
+        System.out.println("returnDate : " + returnDate);
 
         Rental rental = new Rental();
         rental.setVehicleId(vehicleId);
@@ -62,9 +66,15 @@ public class RentalController extends HttpServlet {
         rental.setCustomerNic(customerNic);
         rental.setStatus(status);
 // Calculate rental cost
-        double vehicleCostPerDay = getVehicleCost(rental.getVehicleId()); // Assuming this function exists
+        double vehicleCostPerDay = getVehicleCost(rental.getVehicleId());
+
+        System.out.println("vehicleCostPerDay :" + vehicleCostPerDay);
+
         long rentalDays = (rental.getReturnDate().getTime() - rental.getRentDate().getTime()) / (1000 * 60 * 60 * 24);
+        System.out.println("rentalDays :" + rentalDays);
+
         rental.setCost(vehicleCostPerDay * rentalDays); // Set the calculated cost
+        System.out.println("rental cost :" + rental.getCost());
 
         boolean isAdded = false;
         try {
