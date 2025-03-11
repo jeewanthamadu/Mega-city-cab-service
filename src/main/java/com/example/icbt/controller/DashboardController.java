@@ -18,8 +18,12 @@ public class DashboardController extends HttpServlet {
         long totalVehicles = dashboardService.getTotalVehicles();
         long driverCount = dashboardService.getDriverCount();
         long totalRentals = dashboardService.getTotalRentals();
+        long completedRentals = dashboardService.getCompletedRentals();
         long pendingCount = dashboardService.getPendingRentals();
         long availableVehicles = dashboardService.getAvailableVehicles();
+        long totalCustomers = dashboardService.getTotalCustomers();
+        double totalIncome = dashboardService.getTotalIncome();
+        System.out.println("Total rentals: " + totalRentals);
 
         // Set attributes for JSP
         req.setAttribute("totalVehicles", totalVehicles);
@@ -27,6 +31,9 @@ public class DashboardController extends HttpServlet {
         req.setAttribute("totalRentals", totalRentals);
         req.setAttribute("pendingCount", pendingCount);
         req.setAttribute("availableVehicles", availableVehicles);
+        req.setAttribute("completedRentals", completedRentals);
+        req.setAttribute("totalCustomers", totalCustomers);
+        req.setAttribute("totalIncome", totalIncome);
 
         // Forward to the dashboard JSP
         //req.getRequestDispatcher("dashboard.jsp").forward(req, resp);

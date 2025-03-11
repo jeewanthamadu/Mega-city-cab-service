@@ -57,6 +57,8 @@ public class VehicleRepository {
             insertStatement.setString(6, vehicle.getColor());
             insertStatement.setDouble(7, vehicle.getValue()); // ✅ Set value
 
+            System.out.println("vehicle.getValue() : "+vehicle.getValue());
+
             int rowsAffected = insertStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {

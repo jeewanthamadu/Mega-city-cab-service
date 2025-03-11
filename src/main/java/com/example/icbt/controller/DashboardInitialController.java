@@ -20,7 +20,7 @@ public class DashboardInitialController extends HttpServlet {
         long totalRentals = dashboardService.getTotalRentals();
         long pendingCount = dashboardService.getPendingRentals();
         long availableVehicles = dashboardService.getAvailableVehicles();
-
+        System.out.println("Total rentals: " + totalRentals);
         // Set attributes for JSP
         req.setAttribute("totalVehicles", totalVehicles);
         req.setAttribute("driverCount", driverCount);

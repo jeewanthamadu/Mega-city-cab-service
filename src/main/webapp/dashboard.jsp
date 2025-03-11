@@ -10,20 +10,16 @@
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #f0f2f5;
+                background-color: #eaddee;
                 margin: 0;
                 padding: 20px;
                 color: #333;
             }
 
             .dashboard-welcome {
-                background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
-                backdrop-filter: blur(10px); /* Glassmorphism effect */
-                border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+                backdrop-filter: blur(10px);
                 border-radius: 15px;
-                padding: 40px;
-                text-align: center;
-                color: #333;
+                color: #9c0982;
             }
 
             .dashboard-welcome h1 {
@@ -276,7 +272,6 @@
     <div id="content-area">
         <div class="dashboard-welcome">
             <h1>Welcome</h1>
-            <p>Experience the power of data at your fingertips.</p>
         </div>
         <div class="manage-widget" onclick="toggleManageOptions()" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center;">
             <i class="fas fa-cog" style="margin-right: 5px;"></i> Manage
@@ -290,13 +285,53 @@
             <a href="#" onclick="loadPage('viewHistory'); return false;">View History</a>
         </div>
         <div class="dashboard-widgets">
-            <div class="widget widget-vehicles"> <i class="fas fa-car"></i> <h3>${totalVehicles}</h3> <p>Vehicles</p> </div>
-            <div class="widget widget-drivers"> <i class="fas fa-users"></i> <h3>${driverCount}</h3> <p>Drivers</p> </div>
-            <div class="widget widget-customers"> <i class="fas fa-user"></i> <h3>${totalRentals}</h3> <p>Customers</p> </div>
-            <div class="widget widget-rentals"> <i class="fas fa-handshake"></i> <h3>${pendingCount}</h3> <p>Rentals</p> </div>
-            <div class="widget widget-revenue"> <i class="fas fa-dollar-sign"></i> <h3>${availableVehicles}</h3> <p>Available Vehicles</p> </div>
-            <div class="widget widget-completed"> <i class="fas fa-check-circle"></i> <h3>${completedRentals}</h3> <p>Completed Rentals</p> </div>
-            <div class="widget widget-pending"> <i class="fas fa-clock"></i> <h3>${pendingRentals}</h3> <p>Pending Rentals</p> </div>
+            <div class="widget widget-vehicles">
+                <i class="fas fa-car"></i>
+                <h3>${totalVehicles}</h3>
+                <p>Vehicles</p>
+            </div>
+
+            <div class="widget widget-drivers">
+                <i class="fas fa-id-card"></i>
+                <h3>${driverCount}</h3>
+                <p>Drivers</p>
+            </div>
+
+            <div class="widget widget-customers">
+                <i class="fas fa-user"></i>
+                <h3>${totalCustomers}</h3>
+                <p>Customers</p>
+            </div>
+
+            <div class="widget widget-rentals">
+                <i class="fas fa-handshake"></i>
+                <h3>${totalRentals}</h3>
+                <p>Rentals</p>
+            </div>
+
+            <div class="widget widget-revenue">
+                <i class="fas fa-car-side"></i>
+                <h3>${availableVehicles}</h3>
+                <p>Available Vehicles</p>
+            </div>
+
+            <div class="widget widget-completed">
+                <i class="fas fa-check-circle"></i>
+                <h3>${completedRentals}</h3>
+                <p>Completed Rentals</p>
+            </div>
+
+            <div class="widget widget-pending">
+                <i class="fas fa-clock"></i>
+                <h3>${pendingCount}</h3>
+                <p>Pending Rentals</p>
+            </div>
+
+            <div class="widget widget-income">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>${totalIncome}</h3>
+                <p>Total Income</p>
+            </div>
         </div>
     </div>
     <script>
