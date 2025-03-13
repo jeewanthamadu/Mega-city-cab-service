@@ -10,7 +10,7 @@
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #eaddee;
+                background-color: #e3e3e3;
                 margin: 0;
                 padding: 20px;
                 color: #333;
@@ -19,7 +19,7 @@
             .dashboard-welcome {
                 backdrop-filter: blur(10px);
                 border-radius: 15px;
-                color: #9c0982;
+                color: #7000ff;
             }
 
             .dashboard-welcome h1 {
@@ -76,7 +76,7 @@
                 position: absolute;
                 top: 70px;
                 right: 20px;
-                background: linear-gradient(135deg, #fceabb, #f8b500); /* Yellow-orange gradient */
+                background: linear-gradient(166deg, #b9b19d, #e3d8d8);
                 border-radius: 15px;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
                 padding: 20px;
