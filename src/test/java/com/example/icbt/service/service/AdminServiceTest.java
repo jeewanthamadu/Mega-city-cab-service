@@ -1,6 +1,7 @@
-package com.example.icbt.service;
+package com.example.icbt.service.service;
 
 import com.example.icbt.model.DefaultResponse;
+import com.example.icbt.service.LoginService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import org.junit.jupiter.api.BeforeEach;

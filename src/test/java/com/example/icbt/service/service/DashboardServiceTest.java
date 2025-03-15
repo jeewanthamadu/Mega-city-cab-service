@@ -1,5 +1,6 @@
-package com.example.icbt.service;
+package com.example.icbt.service.service;
 
+import com.example.icbt.service.DashboardService;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
