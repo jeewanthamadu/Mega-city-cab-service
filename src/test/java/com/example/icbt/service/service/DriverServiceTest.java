@@ -1,12 +1,11 @@
-package com.example.icbt.service;
+package com.example.icbt.service.service;
 
 import com.example.icbt.entity.Driver;
 import com.example.icbt.model.DefaultResponse;
 import com.example.icbt.repository.DriverRepository;
+import com.example.icbt.service.DriverService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import java.time.LocalDateTime;
 import java.util.List;
