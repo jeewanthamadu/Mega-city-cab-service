@@ -1,8 +1,6 @@
-package com.example.icbt.service;
+package com.example.icbt.service.service;
 
 import org.junit.jupiter.api.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RentalServiceTest {
 
