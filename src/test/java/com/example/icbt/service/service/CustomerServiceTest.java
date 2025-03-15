@@ -1,6 +1,7 @@
-package com.example.icbt.service;
+package com.example.icbt.service.service;
 
 import com.example.icbt.entity.Customer;
+import com.example.icbt.service.CustomerService;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
