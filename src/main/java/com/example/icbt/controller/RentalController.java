@@ -73,7 +73,7 @@ public class RentalController extends HttpServlet {
         long rentalDays = (rental.getReturnDate().getTime() - rental.getRentDate().getTime()) / (1000 * 60 * 60 * 24);
         System.out.println("rentalDays :" + rentalDays);
 
-        rental.setCost(vehicleCostPerDay * rentalDays); // Set the calculated cost
+        rental.setCost(vehicleCostPerDay * rentalDays);
         System.out.println("rental cost :" + rental.getCost());
 
         boolean isAdded = false;
@@ -111,15 +111,15 @@ public class RentalController extends HttpServlet {
         List<Rental> rentalList = rentalService.getAllRentals();
         req.setAttribute("rentalList", rentalList);
 
-        VehicleService vehicleService = new VehicleService(); // Assuming you have a VehicleService
+        VehicleService vehicleService = new VehicleService();
         List<Vehicle> vehicleList = vehicleService.getAvailableVehicles();
         req.setAttribute("vehicleList", vehicleList);
 
-        DriverService driverService = new DriverService(); // Assuming you have a VehicleService
+        DriverService driverService = new DriverService();
         List<Driver> driverList = driverService.getAvailableDrivers();
         req.setAttribute("driverList", driverList);
 
-        CustomerService customerService = new CustomerService(); // Assuming you have a VehicleService
+        CustomerService customerService = new CustomerService();
         List<Customer> customerList = customerService.getAllCustomers();
         req.setAttribute("customerList", customerList);
 

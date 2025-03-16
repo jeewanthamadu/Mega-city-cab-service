@@ -109,16 +109,16 @@ public class RentalRepository {
                 "description TEXT, " +
                 "customer_id INT NOT NULL, " +
                 "status VARCHAR(20) NOT NULL, " +
-                "cost DOUBLE NOT NULL)"; // Added cost column
+                "cost DOUBLE NOT NULL)";
 
         String insertQuery = "INSERT INTO rental (vehicle_id, driver_id, rent_date, return_date, description, customer_id, status, cost) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; // Added cost to INSERT query
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DbConnection.getConnection();
              PreparedStatement createTableStatement = connection.prepareStatement(createTableQuery);
              PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
 
-            connection.setAutoCommit(false); // Start transaction
+            connection.setAutoCommit(false);
 
             createTableStatement.executeUpdate();
 
@@ -133,18 +133,16 @@ public class RentalRepository {
             insertStatement.setString(5, rental.getDescription());
             insertStatement.setInt(6, rental.getCustomerId());
             insertStatement.setString(7, rental.getStatus());
-            insertStatement.setDouble(8, rental.getCost()); // Set cost value
+            insertStatement.setDouble(8, rental.getCost());
 
             int rowsAffected = insertStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                // Update vehicle availability
                 if (!vehicleRepository.setVehicleAvailability(rental.getVehicleId(), false)) {
                     connection.rollback();
                     return false;
                 }
 
-                // Update driver availability if a driver is assigned
                 if (rental.getDriverId() != null) {
                     if (!driverRepository.setDriverAvailability(rental.getDriverId(), false)) {
                         connection.rollback();
@@ -237,7 +235,7 @@ public class RentalRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;  // If any error occurs, return 0
+        return 0;
     }
 
     public long getCompletedRentals() {
@@ -249,45 +247,45 @@ public class RentalRepository {
 
             if (resultSet.next()) {
                 System.out.println("resultSet.getLong(1) :"+resultSet.getLong(1));
-                return resultSet.getLong(1);  // Get count from query result
+                return resultSet.getLong(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;  // If any error occurs, return 0
+        return 0;
     }
 
     public double getTotalReturnedRentalsCost() {
-        String query = "SELECT SUM(cost) FROM rental WHERE status = 'Return'"; // Summing cost for returned rentals
+        String query = "SELECT SUM(cost) FROM rental WHERE status = 'Return'";
 
         try (Connection connection = DbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
-                return resultSet.getDouble(1);  // Get total cost from query result
+                return resultSet.getDouble(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0.0; // Return 0 if an error occurs or no records found
+        return 0.0;
     }
 
 
     public long getPendingRentals() {
-        String query = "SELECT COUNT(*) FROM rental WHERE status = 'Rent'";  // Assuming status 'PENDING' for pending rentals
+        String query = "SELECT COUNT(*) FROM rental WHERE status = 'Rent'";
 
         try (Connection connection = DbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
-                return resultSet.getLong(1);  // Get count from query result
+                return resultSet.getLong(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;  // If any error occurs, return 0
+        return 0;
     }
 
     public boolean returnVehicle(int rentalId) throws SQLException {
@@ -298,15 +296,13 @@ public class RentalRepository {
              PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
              PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
 
-            connection.setAutoCommit(false); // Start transaction
+            connection.setAutoCommit(false);
 
-            // Update rental status and return date
             updateStatement.setDate(1, Date.valueOf(LocalDate.now()));
             updateStatement.setInt(2, rentalId);
             int rowsUpdated = updateStatement.executeUpdate();
 
             if (rowsUpdated > 0) {
-                // Get vehicle and driver IDs from the rental
                 selectStatement.setInt(1, rentalId);
                 ResultSet resultSet = selectStatement.executeQuery();
 
@@ -314,13 +310,11 @@ public class RentalRepository {
                     int vehicleId = resultSet.getInt("vehicle_id");
                     Integer driverId = resultSet.getObject("driver_id", Integer.class); // Handle null driverId
 
-                    // Set vehicle availability to true
                     if (!vehicleRepository.setVehicleAvailability(vehicleId, true)) {
                         connection.rollback();
                         return false;
                     }
 
-                    // Set driver availability to true if a driver was assigned
                     if (driverId != null) {
                         if (!driverRepository.setDriverAvailability(driverId, true)) {
                             connection.rollback();
@@ -332,11 +326,11 @@ public class RentalRepository {
                     return true;
                 } else {
                     connection.rollback();
-                    return false; // Rental not found
+                    return false;
                 }
             } else {
                 connection.rollback();
-                return false; // Update failed
+                return false;
             }
         } catch (SQLException e) {
             if (DbConnection.getConnection() != null) {
